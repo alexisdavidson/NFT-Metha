@@ -1,5 +1,5 @@
 # Gelato (Hardhat-Solidity-React)
-This app lets you connect your MetaMask wallet and allows you to mint and stake Gelato NFTs
+This app lets you connect your MetaMask wallet and allows you to mint NFTs
 
 ## Technology Stack
 The smart contracts are developed using solidity and following [OpenZeppelin ERC721a](https://github.com/chiru-labs/ERC721A).

@@ -1,4 +1,4 @@
-# Gelato (Hardhat-Solidity-React)
+# Metha NFT (Hardhat-Solidity-React)
 This app lets you connect your MetaMask wallet and allows you to mint NFTs
 
 ## Technology Stack

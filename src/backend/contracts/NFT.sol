@@ -1,15 +1,21 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.4;
 
+import "./Pool.sol";
 import "hardhat/console.sol";
 import "@openzeppelin/contracts/utils/Strings.sol";
 import "@openzeppelin/contracts/access/Ownable.sol";
 import "erc721a/contracts/ERC721A.sol";
+import "@openzeppelin/contracts/token/ERC20/ERC20.sol";
+import "@openzeppelin/contracts/security/ReentrancyGuard.sol";
 
-contract NFT is ERC721A, Ownable {
+contract NFT is ERC721A, Ownable, ReentrancyGuard {
+    ERC20 public methereumToken;
+    Pool private poolContract;
+
     string public constant uriSuffix = '.json';
 
-    uint256 public immutable max_supply = 9941;
+    uint256 public immutable max_supply = 8000;
 
     uint public amountMintPerAccount = 1;
 
@@ -27,14 +33,18 @@ contract NFT is ERC721A, Ownable {
         address user
     );
 
-    constructor(address teamAddress, address[] memory _usersToWhitelist) ERC721A("Metha NFT", "MT")
+    constructor(address methereumTokenAddress, address poolAddress, address ownerAddress, address teamAddress1, address teamAddress2, address[] memory _usersToWhitelist) ERC721A("Metha NFT", "MT")
     {
+        methereumToken = ERC20(methereumTokenAddress);
+        poolContract = Pool(poolAddress);
+
         // Set whitelist
         delete whitelistedAddresses;
         whitelistedAddresses = _usersToWhitelist;
 
-        // Mint 333 NFTs for the team
-        _mint(teamAddress, 333);
+        // Mint 75 NFTs for each team wallet
+        _mint(teamAddress1, 75);
+        _mint(teamAddress2, 75);
 
         // Set unkownUris
         uint256 unknownUrisLength = unknownUris.length;
@@ -44,7 +54,7 @@ contract NFT is ERC721A, Ownable {
         }
 
         // Transfer ownership
-        _transferOwnership(teamAddress);
+        _transferOwnership(ownerAddress);
     }
 
     function tokenURI(uint256 _tokenId) public view virtual override returns (string memory) {
@@ -61,6 +71,7 @@ contract NFT is ERC721A, Ownable {
     }
 
     function mint(uint256 quantity) external payable {
+        require(methereumToken.balanceOf(msg.sender) > 0, 'Have to hold Methereum Token to mint');
         require(totalSupply() + quantity < max_supply, 'Cannot mint more than max supply');
         require(publicSaleEnabled || isWhitelisted(address(msg.sender)), 'You are not whitelisted');
         require(balanceOf(msg.sender) < amountMintPerAccount, 'Each address may only mint x NFTs!');
@@ -129,7 +140,22 @@ contract NFT is ERC721A, Ownable {
         amountMintPerAccount = _amountMintPerAccount;
     }
 
-    function withdraw() public onlyOwner {
+    function withdraw() external onlyOwner {
         payable(msg.sender).transfer(address(this).balance);
+    }
+
+    function settleMonth(uint256 _winnerTeam) external onlyOwner {
+        uint256 _fundsCollected = address(this).balance;
+        uint256 _reward = _fundsCollected / 1000;
+
+        (bool success, ) = payable(address(poolContract)).call{value: _fundsCollected}("");
+        require(success, "Claim failed");
+
+        poolContract.distributeReward(_winnerTeam, _reward);
+    }
+
+    function claimReward(uint256 _tokenId) external nonReentrant {
+        require(ownerOf(_tokenId) == msg.sender, 'You need to own this token');
+        poolContract.claimReward(msg.sender);
     }
 }

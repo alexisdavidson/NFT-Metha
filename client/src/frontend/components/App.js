@@ -15,15 +15,15 @@ import NFTAbi from '../contractsData/NFT.json'
 import NFTAddress from '../contractsData/NFT-address.json'
 import TokenAbi from '../contractsData/Token.json'
 import TokenAddress from '../contractsData/Token-address.json'
-import StakerAbi from '../contractsData/NFTStaker.json'
-import StakerAddress from '../contractsData/NFTStaker-address.json'
+import PoolAbi from '../contractsData/NFTPool.json'
+import PoolAddress from '../contractsData/NFTPool-address.json'
 
 function App() {
   const [loading, setLoading] = useState(true)
   const [account, setAccount] = useState(null)
   const [nft, setNFT] = useState({})
   const [token, setToken] = useState({})
-  const [staker, setStaker] = useState({})
+  const [pool, setPool] = useState({})
 
   // MetaMask Login/Connect
   const web3Handler = async () => {
@@ -40,11 +40,11 @@ function App() {
   const loadContracts = async (signer) => {
     const nft = new ethers.Contract(NFTAddress.address, NFTAbi.abi, signer)
     const token = new ethers.Contract(TokenAddress.address, TokenAbi.abi, signer)
-    const staker = new ethers.Contract(StakerAddress.address, StakerAbi.abi, signer)
+    const pool = new ethers.Contract(PoolAddress.address, PoolAbi.abi, signer)
 
     setNFT(nft)
     setToken(token)
-    setStaker(staker)
+    setPool(pool)
     setLoading(false)
   }
 
@@ -60,7 +60,7 @@ function App() {
         ) : (
           <Routes>
             <Route path="/" element={
-              <Home account={account} nft={nft} token={token} staker={staker} />
+              <Home account={account} nft={nft} token={token} pool={pool} />
             } />
           </Routes>
         ) }

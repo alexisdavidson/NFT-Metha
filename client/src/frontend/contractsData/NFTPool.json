@@ -1,7 +1,7 @@
 {
   "_format": "hh-sol-artifact-1",
-  "contractName": "NFTStaker",
-  "sourceName": "src/backend/contracts/NFTStaker.sol",
+  "contractName": "NFTPool",
+  "sourceName": "src/backend/contracts/NFTPool.sol",
   "abi": [
     {
       "inputs": [

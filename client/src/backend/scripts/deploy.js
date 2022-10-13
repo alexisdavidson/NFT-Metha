@@ -21,11 +21,11 @@ async function main() {
   
   const NFT = await ethers.getContractFactory("NFT");
   const Token = await ethers.getContractFactory("Token");
-  const NFTPool = await ethers.getContractFactory("NFTPool");
+  const Pool = await ethers.getContractFactory("Pool");
   const nft = await NFT.deploy(teamWallet, whitelistAddresses);
   console.log("NFT contract address", nft.address)
-  const nftPool = await NFTPool.deploy(nft.address);
-  console.log("NFTPool contract address", nftPool.address)
+  const nftPool = await Pool.deploy(nft.address);
+  console.log("Pool contract address", nftPool.address)
   const token = await Token.deploy([nftPool.address, teamWallet], [73000000, 149000000]);
   console.log("Token contract address", token.address)
   await nftPool.setOwnerAndTokenAddress(teamWallet, token.address);
@@ -33,7 +33,7 @@ async function main() {
   
   saveFrontendFiles(nft, "NFT");
   saveFrontendFiles(token, "Token");
-  saveFrontendFiles(nftPool, "NFTPool");
+  saveFrontendFiles(nftPool, "Pool");
 
   console.log("Frontend files saved")
 }

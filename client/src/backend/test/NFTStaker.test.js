@@ -4,7 +4,7 @@ const helpers = require("@nomicfoundation/hardhat-network-helpers")
 const toWei = (num) => ethers.utils.parseEther(num.toString())
 const fromWei = (num) => Math.round(ethers.utils.formatEther(num))
 
-describe("NFTPool", async function() {
+describe("Pool", async function() {
     let deployer, addr1, addr2, nft, token, nftPool, rewardRate
     let teamWallet = "0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266"
     let whitelist = []
@@ -20,7 +20,7 @@ describe("NFTPool", async function() {
         // Get contract factories
         const NFT = await ethers.getContractFactory("NFT");
         const Token = await ethers.getContractFactory("Token");
-        const NFTPool = await ethers.getContractFactory("NFTPool");
+        const Pool = await ethers.getContractFactory("Pool");
 
         // Get signers
         [deployer, addr1, addr2] = await ethers.getSigners();
@@ -28,7 +28,7 @@ describe("NFTPool", async function() {
 
         // Deploy contracts
         nft = await NFT.deploy(teamWallet, whitelist);
-        nftPool = await NFTPool.deploy(nft.address);
+        nftPool = await Pool.deploy(nft.address);
         token = await Token.deploy([nftPool.address, teamWallet], [poolTokenAmount, teamTokenAmount]);
         await nftPool.setOwnerAndTokenAddress(teamWallet, token.address);
     });

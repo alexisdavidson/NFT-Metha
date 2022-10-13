@@ -12,7 +12,7 @@ describe("Token", async function() {
         // Get contract factories
         const NFT = await ethers.getContractFactory("NFT");
         const Token = await ethers.getContractFactory("Token");
-        const NFTPool = await ethers.getContractFactory("NFTPool");
+        const Pool = await ethers.getContractFactory("Pool");
 
         // Get signers
         [deployer, addr1, addr2] = await ethers.getSigners();
@@ -20,7 +20,7 @@ describe("Token", async function() {
 
         // Deploy contracts
         nft = await NFT.deploy(teamWallet, whitelist);
-        nftPool = await NFTPool.deploy(nft.address);
+        nftPool = await Pool.deploy(nft.address);
         await expect(Token.deploy([nftPool.address], [])).to.be.revertedWith('Minter Addresses and Token Amount arrays need to have the same size.');
         token = await Token.deploy([nftPool.address, teamWallet], [73000000, 149000000]);
         await nftPool.setOwnerAndTokenAddress(teamWallet, token.address);

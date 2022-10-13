@@ -15,8 +15,8 @@ import NFTAbi from '../contractsData/NFT.json'
 import NFTAddress from '../contractsData/NFT-address.json'
 import TokenAbi from '../contractsData/Token.json'
 import TokenAddress from '../contractsData/Token-address.json'
-import PoolAbi from '../contractsData/NFTPool.json'
-import PoolAddress from '../contractsData/NFTPool-address.json'
+import PoolAbi from '../contractsData/Pool.json'
+import PoolAddress from '../contractsData/Pool-address.json'
 
 function App() {
   const [loading, setLoading] = useState(true)
@@ -52,7 +52,7 @@ function App() {
     <BrowserRouter>
       <div className="App">
         <Navigation web3Handler={web3Handler} account={account} />
-        { loading ? (
+        { false ? (
           <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', minHeight: '80vh'}}>
             <Spinner animation="border" style={{ display: 'flex' }} />
             <p className='mx-3 my-0'>Awaiting MetaMask Connection...</p>

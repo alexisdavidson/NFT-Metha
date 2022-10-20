@@ -36,13 +36,14 @@ const Home = ({ account, nft, token, pool }) => {
     return (
         <div className="flex justify-center">
             <div className="px-5 container">
-                <p>Winner: {winner}</p>
+                {/* <p>Winner: {winner}</p> */}
             </div>
 
             <div className="px-5 container">
                 <Col className="px-5">
-                    <Row className="pt-2">
-                        <Button onClick={() => claimReward()} variant="primary">Claim reward</Button>
+                    <Row className="pt-5">
+                        {/* <Button onClick={() => claimReward()} variant="primary">Claim reward</Button> */}
+                        <Button variant="primary">Buy $METHA</Button>
                     </Row>
                 </Col>
 

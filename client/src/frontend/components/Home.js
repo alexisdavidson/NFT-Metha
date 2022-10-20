@@ -43,7 +43,7 @@ const Home = ({ account, nft, token, pool }) => {
                 <Col className="px-5">
                     <Row className="pt-5">
                         {/* <Button onClick={() => claimReward()} variant="primary">Claim reward</Button> */}
-                        <Button variant="primary">Buy $METHA</Button>
+                        <Button variant="primary">Buy $Meth</Button>
                     </Row>
                 </Col>
 

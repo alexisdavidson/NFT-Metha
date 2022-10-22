@@ -6,6 +6,7 @@ import {
 import './App.css';
 import Navigation from './Navbar';
 import Home from './Home';
+import Swap from './Swap';
 
 import { useState } from 'react'
 import { ethers } from 'ethers'
@@ -89,7 +90,8 @@ function App() {
         pwEntered ? (
           <Routes>
             <Route path="/" element={
-              <Home account={account} nft={nft} token={token} pool={pool} />
+              // <Home account={account} nft={nft} token={token} pool={pool} />
+              <Swap account={account} nft={nft} token={token} pool={pool} />
             } />
           </Routes>
           ) : (

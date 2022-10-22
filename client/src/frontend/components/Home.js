@@ -3,7 +3,6 @@ import { ethers } from "ethers"
 import { Row, Col, Button, Form } from 'react-bootstrap'
 import Axios from 'axios'
 import configData from "./configData.json";
-import vid from "./video/vid.mp4";
 
 const Home = ({ account, nft, token, pool }) => {
     const [loading, setLoading] = useState(true)
@@ -37,23 +36,7 @@ const Home = ({ account, nft, token, pool }) => {
         <div className="flex justify-center">
             <div className="px-5 container">
                 {/* <p>Winner: {winner}</p> */}
-            </div>
-
-            <div className="px-5 container">
-                <Col className="px-5">
-                    <Row className="pt-5">
-                        {/* <Button onClick={() => claimReward()} variant="primary">Claim reward</Button> */}
-                        <Button variant="primary">Buy $Meth</Button>
-                    </Row>
-                </Col>
-
-            </div>
-
-            
-            <div className="px-5 container">
-                <video width="750" height="500" controls >
-                    <source src={vid} type="video/mp4"/>
-                </video>
+                dApp
             </div>
         </div>
     );

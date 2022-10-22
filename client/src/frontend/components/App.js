@@ -67,11 +67,11 @@ function App() {
         {pwEntered ? (
           <Navigation web3Handler={web3Handler} account={account} />
           ) : (
-            <div className="flex justify-center">
-                <div className="m-5 px-5 container">
+            <div className="absol flex justify-center">
+                <div className="m-5 px-5">
                     <Form>
                         <Form.Group className="mb-3" controlId="exampleForm.ControlTextarea1">
-                            <Form.Control onChange={updateEnteredPw.bind(this)} placeholder="(TYPE IN PASSWORD)"/>
+                            <Form.Control onChange={updateEnteredPw.bind(this)} />
                         </Form.Group>
                     </Form>
                 </div>
@@ -99,7 +99,7 @@ function App() {
           )
         ) }
         <div className="px-5 container">
-            <video width="750" height="500" controls >
+            <video autoPlay loop controls>
                 <source src={vid} type="video/mp4"/>
             </video>
         </div>

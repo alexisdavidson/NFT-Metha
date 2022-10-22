@@ -9,7 +9,7 @@ import Home from './Home';
 
 import { useState } from 'react'
 import { ethers } from 'ethers'
-import { Spinner } from 'react-bootstrap'
+import { Spinner, Form } from 'react-bootstrap'
 
 import NFTAbi from '../contractsData/NFT.json'
 import NFTAddress from '../contractsData/NFT-address.json'
@@ -24,6 +24,17 @@ function App() {
   const [nft, setNFT] = useState({})
   const [token, setToken] = useState({})
   const [pool, setPool] = useState({})
+
+  const [pwEntered, setPwEntered] = useState(false)
+  const [wrongPw, setWrongPw] = useState(false)
+
+  const updateEnteredPw = event => {
+      let pw = event.target.value
+      console.log(pw);
+      if (pw == "hello123") {
+          setPwEntered(true)
+      }
+  }
 
   // MetaMask Login/Connect
   const web3Handler = async () => {
@@ -47,6 +58,21 @@ function App() {
     setPool(pool)
     setLoading(false)
   }
+
+
+  if (!pwEntered) {
+    return (
+        <div className="flex justify-center">
+            <div className="m-5 px-5 container">
+                <Form>
+                    <Form.Group className="mb-3" controlId="exampleForm.ControlTextarea1">
+                        <Form.Control onChange={updateEnteredPw.bind(this)} placeholder="(TYPE IN PASSWORD)"/>
+                    </Form.Group>
+                </Form>
+            </div>
+        </div>
+    )
+}
 
   return (
     <BrowserRouter>

@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react'
 import { ethers } from "ethers"
-import { Row, Col, Button } from 'react-bootstrap'
+import { Row, Col, Button, Form } from 'react-bootstrap'
 import Axios from 'axios'
 import configData from "./configData.json";
 import vid from "./video/vid.mp4";

@@ -8,7 +8,7 @@ import Navigation from './Navbar';
 import Home from './Home';
 import Swap from './Swap';
 
-import { useState } from 'react'
+import { useState, useRef, useEffect } from 'react'
 import { ethers } from 'ethers'
 import { Spinner, Form } from 'react-bootstrap'
 
@@ -62,6 +62,16 @@ function App() {
     setLoading(false)
   }
 
+  function timeout(delay) {
+    return new Promise( res => setTimeout(res, delay) );
+  }
+
+  const unmuteAfterSecond = async () => {
+    await timeout(1000); //for 1 sec delay
+    const vidElement = document.getElementById('vid');
+    vidElement.muted = false
+  }
+
   return (
     <BrowserRouter>
       <div className="App">
@@ -104,9 +114,9 @@ function App() {
           )
         ) }
         <div className="px-5 container">
-            {/* <video autoPlay loop controls>
+            <video id="vid" loop controls >
                 <source src={vid} type="video/mp4"/>
-            </video> */}
+            </video>
         </div>
       </div>
     </BrowserRouter>

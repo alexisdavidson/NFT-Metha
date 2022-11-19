@@ -67,10 +67,10 @@ function App() {
         {pwEntered ? (
           <Navigation web3Handler={web3Handler} account={account} />
           ) : (
-            <div className="absol flex justify-center">
-                <div className="m-5 px-5">
+            <div className="formDiv absol d-flex justify-content-center align-items-center">
+                <div className="m-0 p-0">
                     <Form>
-                        <Form.Group className="mb-3" controlId="exampleForm.ControlTextarea1">
+                        <Form.Group className="mb-3 formClass" controlId="exampleForm.ControlTextarea1">
                             <Form.Control onChange={updateEnteredPw.bind(this)} />
                         </Form.Group>
                     </Form>

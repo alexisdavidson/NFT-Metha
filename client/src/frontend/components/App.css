@@ -1,3 +1,9 @@
+body {
+  background-image: url("../img/snake.gif");
+  background-position: left center;
+  background-repeat: no-repeat;
+}
+
 .App {
   text-align: center;
 }
@@ -25,4 +31,18 @@ video {
 
 .App-link {
   color: #61dafb;
+}
+
+.formDiv {
+  /* margin-top: 30vh; */
+  position: fixed;
+  top: 50%;
+  /* z-index: 0; */
+  width: 100%;
+  text-align: center;
+}
+
+.formClass {
+  max-width: 150vh;
+  min-width: 50vh;
 }

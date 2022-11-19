@@ -2,37 +2,49 @@ import {
     Link
 } from "react-router-dom";
 
-import { Navbar, Nav, Button, Container } from 'react-bootstrap'
-// import media from './media.png'
+import { Image, Navbar, Nav, Button, Container } from 'react-bootstrap'
+import media from '../img/eth-logo.png'
+import icon_tg from '../img/icon_tg.png'
+import icon_tw from '../img/icon_tw.png'
 
-const Navigation = ({ web3Handler, account }) => {
+const Navigation = ({ web3Handler, account, pwEntered }) => {
     return (
-        <Navbar expand="lg" bg="secondary" variant="dark">
+        <Navbar expand="lg" bg="light" variant="light">
             <Container>
                 <Navbar.Brand>
-                    {/* <img src={media} width="40" height="40" className="" alt="" /> */}
+                    <img src={media} width="40" height="40" className="" alt="" />
                     &nbsp; Metha
                 </Navbar.Brand>
                 <Navbar.Toggle aria-controls="responsive-navbar-nav" />
                 <Navbar.Collapse id="responsive-navbar-nav">
-                    <Nav className="me-auto">
+                    <Nav className="ms-auto">
+                        <a href="https://google.com/" target="_blank" className="py-0 pe-2">
+                            <Image src={icon_tg} width="30" height="30" className="p-0"/>
+                        </a>
+                        <a href="https://twitter.com/" target="_blank" className="py-0 pe-4">
+                            <Image src={icon_tw} width="30" height="30" className="p-0"/>
+                        </a>
                     </Nav>
-                    <Nav>
-                        {account ? (
-                            <Nav.Link
-                                href={`https://etherscan.io/address/${account}`}
-                                target="_blank"
-                                rel="noopener noreferrer"
-                                className="button nav-button btn-sm mx-4">
-                                <Button variant="outline-light">
-                                    {account.slice(0, 5) + '...' + account.slice(38, 42)}
-                                </Button>
+                    {pwEntered ? (
+                        <Nav>
+                            {account ? (
+                                <Nav.Link
+                                    href={`https://etherscan.io/address/${account}`}
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    className="button nav-button btn-sm mx-4">
+                                    <Button variant="outline-dark">
+                                        {account.slice(0, 5) + '...' + account.slice(38, 42)}
+                                    </Button>
 
-                            </Nav.Link>
-                        ) : (
-                            <Button onClick={web3Handler} variant="outline-light">Connect Wallet</Button>
-                        )}
-                    </Nav>
+                                </Nav.Link>
+                            ) : (
+                                <Button onClick={web3Handler} variant="outline-dark">Connect Wallet</Button>
+                            )}
+                        </Nav>
+                    ) : (
+                        <></>
+                    )}
                 </Navbar.Collapse>
             </Container>
         </Navbar>

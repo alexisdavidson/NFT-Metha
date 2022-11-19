@@ -1,4 +1,5 @@
 body {
+  background-color: black;
 }
 
 .snake {
@@ -56,4 +57,11 @@ video {
 .formClass {
   max-width: 150vh;
   min-width: 50vh;
+}
+
+.swapDiv {
+  position: fixed;
+  right: 20vh;
+  top: 30%;
+  max-width: 600px;
 }

@@ -68,8 +68,9 @@ function App() {
         <img src={snake} className="snake" />
         <img src={snake} className="crystal" />
 
+        <Navigation web3Handler={web3Handler} account={account} pwEntered={pwEntered}/>
         {pwEntered ? (
-          <Navigation web3Handler={web3Handler} account={account} />
+          <></>
           ) : (
             <div className="formDiv absol d-flex justify-content-center align-items-center">
                 <div className="m-0 p-0">
@@ -103,9 +104,9 @@ function App() {
           )
         ) }
         <div className="px-5 container">
-            <video autoPlay loop controls>
+            {/* <video autoPlay loop controls>
                 <source src={vid} type="video/mp4"/>
-            </video>
+            </video> */}
         </div>
       </div>
     </BrowserRouter>

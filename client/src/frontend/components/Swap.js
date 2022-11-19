@@ -82,7 +82,7 @@ const Swap = ({ethBalance, tokenBalance, house, token, account}) => {
                         <p className='mx-3 my-0'>Please follow the instructions on your wallet. The transaction may take few minutes to complete.</p>
                     </div>
                 ) : (
-                    <Row className="m-auto" style={{ maxWidth: '600px', background: "black" }}>
+                    <Row className="m-auto swapDiv" >
                         {/* <Col className="col-4 mx-auto mb-4">
                             <button 
                                 className="btn btn-light"

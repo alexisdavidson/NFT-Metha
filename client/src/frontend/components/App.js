@@ -19,6 +19,7 @@ import TokenAddress from '../contractsData/Token-address.json'
 import PoolAbi from '../contractsData/Pool.json'
 import PoolAddress from '../contractsData/Pool-address.json'
 import vid from "./video/vid.mp4";
+import snake from "../img/snake.gif"
 
 function App() {
   const [loading, setLoading] = useState(true)
@@ -64,6 +65,9 @@ function App() {
   return (
     <BrowserRouter>
       <div className="App">
+        <img src={snake} className="snake" />
+        <img src={snake} className="crystal" />
+
         {pwEntered ? (
           <Navigation web3Handler={web3Handler} account={account} />
           ) : (

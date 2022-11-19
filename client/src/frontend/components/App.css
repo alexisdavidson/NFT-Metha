@@ -1,7 +1,18 @@
 body {
-  background-image: url("../img/snake.gif");
-  background-position: left center;
-  background-repeat: no-repeat;
+}
+
+.snake {
+  position: fixed;
+  left: 0vh;
+  top: 20vh;
+  width: 35%;
+}
+
+.crystal {
+  position: fixed;
+  left: 0vh;
+  bottom: 20vh;
+  width: 35%;
 }
 
 .App {

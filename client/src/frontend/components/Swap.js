@@ -1,5 +1,5 @@
 import React from 'react'
-import { Row, Col, Card } from 'react-bootstrap'
+import { Row, Col, Card, Button } from 'react-bootstrap'
 import BuyForm from './BuyForm'
 import SellForm from './SellForm'
 import { useState } from 'react'
@@ -11,7 +11,7 @@ import keccak256 from 'keccak256';
 
 const fromWei = (num) => ethers.utils.formatEther(num)
 
-const Swap = ({swap, ethBalance, tokenBalance, house, token, account}) => {
+const Swap = ({swap, ethBalance, tokenBalance, token, account}) => {
     const [currentForm, setCurrentForm] = useState('buy')
     const [showingTransactionMessage, setShowingTransactionMessage] = useState(false)
     const [error, setError] = useState(null)
@@ -52,7 +52,7 @@ const Swap = ({swap, ethBalance, tokenBalance, house, token, account}) => {
 
     const buyTokens = async (etherAmount) => {
         setError(null)
-        await house.buyTokens({ value: etherAmount, from: account })
+        await swap.buyTokens({ value: etherAmount, from: account })
         .catch(error => {
             console.error("Custom error handling: " + error?.data?.message);
             setError(error?.data?.message)
@@ -62,7 +62,7 @@ const Swap = ({swap, ethBalance, tokenBalance, house, token, account}) => {
       const sellTokens = async (tokenAmount) => {
         setError(null)
         await token.approveUnlimited(account);
-        await house.sellTokens(tokenAmount)
+        await swap.sellTokens(tokenAmount)
         .catch(error => {
             console.error("Custom error handling: " + error?.data?.message);
             setError(error?.data?.message)
@@ -74,16 +74,19 @@ const Swap = ({swap, ethBalance, tokenBalance, house, token, account}) => {
     }
 
     const loadFees = async () => {
-        setFeePercentWithdraw((await house.getFeePercentWithdraw()).toString())
-        setFeePercentDeposit((await house.getFeePercentDeposit()).toString())
-        setRate((await house.getRate()).toString())
+        if (account == null)
+            return
+        console.log(swap)
+        setFeePercentWithdraw((await swap.feePercentWithdraw()).toString())
+        setFeePercentDeposit((await swap.feePercentDeposit()).toString())
+        setRate(parseInt(await swap.rate()).toString())
     }
 
     useEffect(() => {
         loadFees()
     }, [])
 
-    let content
+    let content = <></>
     if (currentForm === 'buy') {
         content = <BuyForm 
                         ethBalance={ethBalance}
@@ -91,7 +94,7 @@ const Swap = ({swap, ethBalance, tokenBalance, house, token, account}) => {
                         buyTokens={buyTokens}
                         showTransactionMessage={showTransactionMessage}
                         feePercentDeposit={feePercentDeposit}
-                        rate={parseInt(rate)}
+                        rate={rate}
                     />
     } else if (currentForm === 'sell') {
         content = <SellForm
@@ -100,7 +103,7 @@ const Swap = ({swap, ethBalance, tokenBalance, house, token, account}) => {
                         sellTokens={sellTokens}
                         showTransactionMessage={showTransactionMessage}
                         feePercentWithdraw={feePercentWithdraw}
-                        rate={parseInt(rate)}
+                        rate={rate}
                     />
     }
 
@@ -134,7 +137,15 @@ const Swap = ({swap, ethBalance, tokenBalance, house, token, account}) => {
     
                         <Card>
                             <Card.Body>
-                                {content}
+                                {account ? (
+                                    <>
+                                        {content}
+                                    </>
+                                ) : (
+                                    <>
+                                        Please connect your wallet to access the dApp.
+                                    </>
+                                )}
                             </Card.Body>
                         </Card>
                     </Row>

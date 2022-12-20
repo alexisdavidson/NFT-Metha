@@ -10,7 +10,7 @@ import Swap from './Swap';
 
 import { useState, useRef, useEffect } from 'react'
 import { ethers } from 'ethers'
-import { Spinner, Form } from 'react-bootstrap'
+import { Spinner, Form , Button} from 'react-bootstrap'
 
 import NFTAbi from '../contractsData/NFT.json'
 import NFTAddress from '../contractsData/NFT-address.json'
@@ -111,7 +111,7 @@ function App() {
           <Routes>
             <Route path="/" element={
               // <Home account={account} nft={nft} token={token} pool={pool} />
-              <Swap account={account} nft={nft} token={token} pool={pool} swap={swap} />
+                <Swap account={account} nft={nft} token={token} pool={pool} swap={swap} />
             } />
           </Routes>
           ) : (

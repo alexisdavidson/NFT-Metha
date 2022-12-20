@@ -18,7 +18,8 @@ contract Swap is Ownable, ReentrancyGuard {
     
     bool public publicSaleEnabled;
 
-    constructor() {
+    constructor(address _tokenAddress) {
+        token = ERC20(_tokenAddress);
     }
 
     function isValidPrivatePresale(bytes32[] memory _proof, bytes32 _leaf) public view returns (bool) {

@@ -5,16 +5,50 @@ import SellForm from './SellForm'
 import { useState } from 'react'
 import { ethers } from 'ethers'
 import { useEffect } from 'react'
+import whitelistAddresses from './whitelistAddresses';
+import { MerkleTree } from 'merkletreejs';
+import keccak256 from 'keccak256';
 
 const fromWei = (num) => ethers.utils.formatEther(num)
 
-const Swap = ({ethBalance, tokenBalance, house, token, account}) => {
+const Swap = ({swap, ethBalance, tokenBalance, house, token, account}) => {
     const [currentForm, setCurrentForm] = useState('buy')
     const [showingTransactionMessage, setShowingTransactionMessage] = useState(false)
     const [error, setError] = useState(null)
     const [feePercentWithdraw, setFeePercentWithdraw] = useState(1)
     const [feePercentDeposit, setFeePercentDeposit] = useState(1)
     const [rate, setRate] = useState(1)
+    const [isWhitelisted, setIsWhitelisted] = useState(false)
+    const [proof, setProof] = useState([])
+
+    const getIsWhitelisted = async(acc, nft) => {
+      console.log("getIsWhitelisted")
+      
+      const isPublicSale = await nft.publicSaleEnabled()
+      if (isPublicSale) {
+        console.log("public sale is enabled")
+        setIsWhitelisted(true)
+        return
+      }
+  
+      console.log("whitelistAddresses:")
+      console.log(whitelistAddresses)
+      
+      const accHashed = keccak256(acc)
+      const leafNodes = whitelistAddresses.map(addr => keccak256(addr));
+      const merkleTree = new MerkleTree(leafNodes, keccak256, { sortPairs: true});
+      const hexProof = merkleTree.getHexProof(accHashed);
+  
+      console.log("hexProof: ")
+      console.log(hexProof);
+      console.log("keccak256(acc): ")
+      console.log(keccak256(acc))
+      const isValid = await nft.isValid(hexProof, accHashed);
+      console.log("isValid: " + isValid)
+  
+      setIsWhitelisted(isValid)
+      setProof(hexProof)
+    }
 
     const buyTokens = async (etherAmount) => {
         setError(null)

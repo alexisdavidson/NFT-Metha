@@ -18,6 +18,8 @@ import TokenAbi from '../contractsData/Token.json'
 import TokenAddress from '../contractsData/Token-address.json'
 import PoolAbi from '../contractsData/Pool.json'
 import PoolAddress from '../contractsData/Pool-address.json'
+import SwapAbi from '../contractsData/Swap.json'
+import SwapAddress from '../contractsData/Swap-address.json'
 import vid from "./video/vid.mp4";
 import snake from "../img/snake.gif"
 
@@ -27,6 +29,7 @@ function App() {
   const [nft, setNFT] = useState({})
   const [token, setToken] = useState({})
   const [pool, setPool] = useState({})
+  const [swap, setSwap] = useState({})
 
   const [pwEntered, setPwEntered] = useState(false)
   const [wrongPw, setWrongPw] = useState(false)
@@ -55,10 +58,12 @@ function App() {
     const nft = new ethers.Contract(NFTAddress.address, NFTAbi.abi, signer)
     const token = new ethers.Contract(TokenAddress.address, TokenAbi.abi, signer)
     const pool = new ethers.Contract(PoolAddress.address, PoolAbi.abi, signer)
+    const swap = new ethers.Contract(SwapAddress.address, SwapAbi.abi, signer)
 
     setNFT(nft)
     setToken(token)
     setPool(pool)
+    setSwap(swap)
     setLoading(false)
   }
 
@@ -106,7 +111,7 @@ function App() {
           <Routes>
             <Route path="/" element={
               // <Home account={account} nft={nft} token={token} pool={pool} />
-              <Swap account={account} nft={nft} token={token} pool={pool} />
+              <Swap account={account} nft={nft} token={token} pool={pool} swap={swap} />
             } />
           </Routes>
           ) : (

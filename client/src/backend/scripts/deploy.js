@@ -3,6 +3,9 @@
 // -Team Wallet mainnet: 
 // -Team Wallet rinkeby: 
 
+const fromWei = (num) => ethers.utils.formatEther(num)
+const toWei = (num) => ethers.utils.parseEther(num.toString())
+
 async function main() {
   const [deployer] = await ethers.getSigners();
 
@@ -10,32 +13,41 @@ async function main() {
   console.log("Account balance:", (await deployer.getBalance()).toString());
 
   // Fill with correct data and uncomment the correct network before deploy!
-  const teamWallet = "0x3c44cdddb6a900fa2b585dd299e03d12fa4293bc"; // localhost
-  // const teamWallet = ""; // rinkeby
-  // const teamWallet = ""; // mainnet
+  const teamWallet1 = "0xD71E736a7eF7a9564528D41c5c656c46c18a2AEd"; // goerli
+  // const teamWallet1 = ""; // mainnet
+  const teamWallet2 = "0xD71E736a7eF7a9564528D41c5c656c46c18a2AEd"; // goerli
+  // const teamWallet2 = ""; // mainnet
+
+  const ownerWallet = "0xD71E736a7eF7a9564528D41c5c656c46c18a2AEd" // goerli
+  // const ownerWallet = ""; // mainnet
   
   // Fill with correct data and uncomment the correct network before deploy!
-  const whitelistAddresses = [teamWallet, "0x70997970c51812dc3a010c7d01b50e0d17dc79c8"] // localhost
-  // const whitelistAddresses = [teamWallet, "0x1e85F8DAd89e993A2c290B846F48B62B151da8af", "0xCdb34512BD8123110D20852ebEF947275f7fD1Ce", "0x1354075Cd28774e7D952F3Bb786F17959d8C6B61"] // rinkeby
+  const nftWhitelist = [ownerWallet, "0xD71E736a7eF7a9564528D41c5c656c46c18a2AEd"] // goerli
   // const whitelistAddresses = [teamWallet] // mainnet
   
   const NFT = await ethers.getContractFactory("NFT");
   const Token = await ethers.getContractFactory("Token");
   const Pool = await ethers.getContractFactory("Pool");
-  const nft = await NFT.deploy(teamWallet, whitelistAddresses);
-  console.log("NFT contract address", nft.address)
-  const nftPool = await Pool.deploy(nft.address);
-  console.log("Pool contract address", nftPool.address)
-  const token = await Token.deploy([nftPool.address, teamWallet], [73000000, 149000000]);
-  console.log("Token contract address", token.address)
-  await nftPool.setOwnerAndTokenAddress(teamWallet, token.address);
-  console.log("setOwnerAndTokenAddress call done")
-  
-  saveFrontendFiles(nft, "NFT");
-  saveFrontendFiles(token, "Token");
-  saveFrontendFiles(nftPool, "Pool");
+  const Swap = await ethers.getContractFactory("Swap");
 
-  console.log("Frontend files saved")
+  // const nft = await NFT.deploy(ownerWallet, teamWallet1, teamWallet2, nftWhitelist);
+  // console.log("NFT contract address", nft.address)
+  // const nftPool = await Pool.deploy(nft.address);
+  // console.log("Pool contract address", nftPool.address)
+  const token = await Token.deploy([ownerWallet], [222_000_000]);
+  saveFrontendFiles(token, "Token");
+  console.log("Token contract address", token.address)
+  
+  const swap = await Swap.deploy(token.address);
+  saveFrontendFiles(swap, "Swap");
+  console.log("Swap contract address", swap.address)
+
+  await token.connect(deployer).transfer(swap.address, toWei(10_000_000))
+
+  // saveFrontendFiles(nft, "NFT");
+  // saveFrontendFiles(nftPool, "Pool");
+
+  console.log("Deployment finished")
 }
 
 function saveFrontendFiles(contract, name) {

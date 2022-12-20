@@ -7,6 +7,7 @@ import './App.css';
 import Navigation from './Navbar';
 import Home from './Home';
 import Swap from './Swap';
+import WhitelistLink from './WhitelistLink';
 
 import { useState, useRef, useEffect } from 'react'
 import { ethers } from 'ethers'
@@ -30,6 +31,7 @@ function App() {
   const [token, setToken] = useState({})
   const [pool, setPool] = useState({})
   const [swap, setSwap] = useState({})
+  const [menu, setMenu] = useState(0) // 0: whitelist Link, 1: dApp
 
   const [pwEntered, setPwEntered] = useState(false)
   const [wrongPw, setWrongPw] = useState(false)
@@ -83,7 +85,7 @@ function App() {
         <img src={snake} className="snake" />
         <img src={snake} className="crystal" />
 
-        <Navigation web3Handler={web3Handler} account={account} pwEntered={pwEntered}/>
+        <Navigation setMenu={setMenu} web3Handler={web3Handler} account={account} pwEntered={pwEntered}/>
         {pwEntered ? (
           <></>
           ) : (
@@ -111,7 +113,11 @@ function App() {
           <Routes>
             <Route path="/" element={
               // <Home account={account} nft={nft} token={token} pool={pool} />
+              menu == 0 ? (
+                <WhitelistLink />
+              ) : (
                 <Swap account={account} nft={nft} token={token} pool={pool} swap={swap} />
+              )
             } />
           </Routes>
           ) : (

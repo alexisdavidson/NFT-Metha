@@ -7,17 +7,22 @@ import media from '../img/eth-logo.png'
 import icon_tg from '../img/icon_tg.png'
 import icon_tw from '../img/icon_tw.png'
 
-const Navigation = ({ web3Handler, account, pwEntered }) => {
+const Navigation = ({ setMenu, web3Handler, account, pwEntered }) => {
     return (
         <Navbar expand="lg" bg="light" variant="light">
             <Container>
                 <Navbar.Brand>
-                    <img src={media} width="40" height="40" className="" alt="" />
+                    <div onClick={() => setMenu(0)} className="navbarElemntLink">
+                        <img src={media} width="40" height="40" className="" alt="" />
                     &nbsp; Metha
+                    </div>
                 </Navbar.Brand>
                 <Navbar.Toggle aria-controls="responsive-navbar-nav" />
                 <Navbar.Collapse id="responsive-navbar-nav">
                     <Nav className="ms-auto">
+                        <div onClick={() => setMenu(1)} className="navbarElemntLink py-0 pe-4">
+                            Swap dApp
+                        </div>
                         <a href="https://google.com/" target="_blank" className="py-0 pe-2">
                             <Image src={icon_tg} width="30" height="30" className="p-0"/>
                         </a>

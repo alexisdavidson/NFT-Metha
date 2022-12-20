@@ -7,7 +7,8 @@ const WhitelistLink = ({swap, ethBalance, tokenBalance, token, account}) => {
             <Row className="m-auto swapDiv" >
                 <Card>
                     <Card.Body>
-                        Link to Google Form Whitelist
+                        <a href="https://docs.google.com/forms/d/e/1FAIpQLSfrEeNPLGnyN4kl9MF9iYMf5Kl-OPsteXE_4THtT3UjTsjO-g/viewform"
+                            target="_blank">Click here to access the Google Form</a>
                     </Card.Body>
                 </Card>
             </Row>

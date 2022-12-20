@@ -1,3 +1,3 @@
 module.exports = [
-  "0x3100436D99cB05d4ef9b030E7ac9aB77f630e629" // token contract address, Goerli
+  "0x4693C7C0B80E69FB8FC7166e2AE6DE8eFb6fa173" // token contract address, Goerli
   ];

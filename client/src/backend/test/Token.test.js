@@ -11,10 +11,8 @@ describe("Token", async function() {
     let teamWallet1 = ""
     let teamWallet2 = ""
     let nftWhitelist = []
-    let whitelistPrivatePresale = []
-    let whitelistPublicPresale = []
-    let whitelistRootPrivatePresale = "0x00314e565e0574cb412563df634608d76f5c59d9f817e85966100ec1d48005c0"
-    let whitelistRootPublicPresale = "0x8a3552d60a98e0ade765adddad0a2e420ca9b1eef5f326ba7ab860bb4ea72c94"
+    let whitelist = []
+    let whitelistRoot = "0x00314e565e0574cb412563df634608d76f5c59d9f817e85966100ec1d48005c0"
 
     const getWhitelistProof = (whitelist, acc) => {
         const accHashed = keccak256(acc)
@@ -33,8 +31,7 @@ describe("Token", async function() {
 
         // Get signers
         [deployer, addr1, addr2, addr3] = await ethers.getSigners();
-        whitelistPrivatePresale = [addr1.address] // 0x70997970C51812dc3A010C7d01b50e0d17dc79C8
-        whitelistPublicPresale = [addr2.address] // 0x3C44CdDdB6a900fa2b585dd299e03d12FA4293BC
+        whitelist = [addr1.address] // 0x70997970C51812dc3A010C7d01b50e0d17dc79C8
 
         // Deploy contracts
         ownerWallet = deployer.address
@@ -58,20 +55,17 @@ describe("Token", async function() {
 
     describe("Swap", function() {
         it("Should swap tokens", async function() {
-            await swap.setWhitelistRootPrivatePresale(whitelistRootPrivatePresale)
-            await swap.setWhitelistRootPublicPresale(whitelistRootPublicPresale)
+            await swap.setWhitelistRoot(whitelistRoot)
 
-            let proof1 = getWhitelistProof(whitelistPrivatePresale, addr1.address)
-            let proof2 = getWhitelistProof(whitelistPublicPresale, addr2.address)
-            let proof3 = getWhitelistProof(whitelistPublicPresale, addr3.address)
+            let proof1 = getWhitelistProof(whitelist, addr1.address)
+            let proof2 = getWhitelistProof(whitelist, addr2.address)
+            let proof3 = getWhitelistProof(whitelist, addr3.address)
 
             const leaf1 = keccak256(addr1.address)
             const leaf2 = keccak256(addr2.address)
 
-            expect(await swap.isValidPrivatePresale(proof1, leaf1)).to.equal(true);
-            expect(await swap.isValidPublicPresale(proof2, leaf2)).to.equal(true);
-            expect(await swap.isValidPublicPresale(proof1, leaf1)).to.equal(false);
-            expect(await swap.isValidPrivatePresale(proof2, leaf2)).to.equal(false);
+            expect(await swap.isValid(proof1, leaf1)).to.equal(true);
+            expect(await swap.isValid(proof2, leaf2)).to.equal(false);
             
             await expect(swap.connect(addr3).buyTokens(proof3, {value: 0})).to.be.revertedWith('You are not whitelisted');
             await expect(swap.connect(addr1).buyTokens(proof1, {value: 0})).to.be.revertedWith('Minimum amount to deposit is 0.01');

@@ -9,8 +9,7 @@ import "@openzeppelin/contracts/utils/cryptography/MerkleProof.sol";
 contract Swap is Ownable, ReentrancyGuard {
     ERC20 private token;
 
-    bytes32 public whitelistRootPrivatePresale;
-    bytes32 public whitelistRootPublicPresale;
+    bytes32 public whitelistRoot;
 
     uint256 public rate = 100000;
     uint256 public feePercentWithdraw = 40; // 4.0%
@@ -22,17 +21,12 @@ contract Swap is Ownable, ReentrancyGuard {
         token = ERC20(_tokenAddress);
     }
 
-    function isValidPrivatePresale(bytes32[] memory _proof, bytes32 _leaf) public view returns (bool) {
-        return MerkleProof.verify(_proof, whitelistRootPrivatePresale, _leaf);
-    }
-
-    function isValidPublicPresale(bytes32[] memory _proof, bytes32 _leaf) public view returns (bool) {
-        return MerkleProof.verify(_proof, whitelistRootPublicPresale, _leaf);
+    function isValid(bytes32[] memory _proof, bytes32 _leaf) public view returns (bool) {
+        return MerkleProof.verify(_proof, whitelistRoot, _leaf);
     }
 
     function buyTokens(bytes32[] memory _proof) public payable nonReentrant {
-        require(publicSaleEnabled || isValidPublicPresale(_proof, keccak256(abi.encodePacked(msg.sender)))
-             || isValidPrivatePresale(_proof, keccak256(abi.encodePacked(msg.sender))), 'You are not whitelisted');
+        require(publicSaleEnabled || isValid(_proof, keccak256(abi.encodePacked(msg.sender))), 'You are not whitelisted');
         require(msg.value >= 10000000000000000, "Minimum amount to deposit is 0.01");
         uint tokenAmount = msg.value * rate * (1000 - feePercentDeposit) / 1000;
         token.transfer(msg.sender, tokenAmount);
@@ -48,12 +42,8 @@ contract Swap is Ownable, ReentrancyGuard {
         token.transferFrom(msg.sender, address(this), _amount);
     }
 
-    function setWhitelistRootPrivatePresale(bytes32 _whitelistRoot) public onlyOwner {
-        whitelistRootPrivatePresale = _whitelistRoot;
-    }
-
-    function setWhitelistRootPublicPresale(bytes32 _whitelistRoot) public onlyOwner {
-        whitelistRootPublicPresale = _whitelistRoot;
+    function setWhitelistRoot(bytes32 _whitelistRoot) public onlyOwner {
+        whitelistRoot = _whitelistRoot;
     }
     
     function setFeePercentWithdraw(uint256 _fee) public onlyOwner {

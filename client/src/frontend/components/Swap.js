@@ -8,6 +8,7 @@ import { useEffect } from 'react'
 import whitelistAddresses from './whitelistAddresses';
 import { MerkleTree } from 'merkletreejs';
 import keccak256 from 'keccak256';
+window.Buffer = window.Buffer || require("buffer").Buffer; 
 
 const fromWei = (num) => ethers.utils.formatEther(num)
 
@@ -21,6 +22,13 @@ const Swap = ({swap, ethBalance, tokenBalance, token, account}) => {
     const [isWhitelisted, setIsWhitelisted] = useState(false)
     const [proof, setProof] = useState([])
 
+    const getWhitelistProof = (acc) => {
+        const accHashed = keccak256(acc)
+        const leafNodes = whitelistAddresses.map(addr => keccak256(addr));
+        const merkleTree = new MerkleTree(leafNodes, keccak256, { sortPairs: true});
+        const hexProof = merkleTree.getHexProof(accHashed);
+        return hexProof
+    }
     const getIsWhitelisted = async(acc, nft) => {
       console.log("getIsWhitelisted")
       
@@ -52,8 +60,13 @@ const Swap = ({swap, ethBalance, tokenBalance, token, account}) => {
 
     const buyTokens = async (etherAmount) => {
         setError(null)
-        await swap.buyTokens({ value: etherAmount, from: account })
+
+        const proof = getWhitelistProof(account)
+        console.log("proof", proof)
+
+        await swap.buyTokens(proof, { value: etherAmount, from: account })
         .catch(error => {
+            console.error("Custom error handling: " + error);
             console.error("Custom error handling: " + error?.data?.message);
             setError(error?.data?.message)
         });

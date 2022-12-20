@@ -24,6 +24,9 @@ async function main() {
   // Fill with correct data and uncomment the correct network before deploy!
   const nftWhitelist = [ownerWallet, "0xD71E736a7eF7a9564528D41c5c656c46c18a2AEd"] // goerli
   // const whitelistAddresses = [teamWallet] // mainnet
+
+  // whitelist root Goerli
+  // 0x3ea9ee95c4fadef164984ecd5084b55c666cb8a20d81070f36a34bfb872ae9ee
   
   const NFT = await ethers.getContractFactory("NFT");
   const Token = await ethers.getContractFactory("Token");

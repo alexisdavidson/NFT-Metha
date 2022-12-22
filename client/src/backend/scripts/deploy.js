@@ -26,7 +26,7 @@ async function main() {
   // const whitelistAddresses = [teamWallet] // mainnet
 
   // whitelist root Goerli
-  // 0x3ea9ee95c4fadef164984ecd5084b55c666cb8a20d81070f36a34bfb872ae9ee
+  // 0x3bfcd2f1242c6bf205b90abbcd902f423c9e795d1022c56125cfe658d39fdc03
   
   const NFT = await ethers.getContractFactory("NFT");
   const Token = await ethers.getContractFactory("Token");

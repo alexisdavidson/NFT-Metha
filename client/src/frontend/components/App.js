@@ -82,8 +82,8 @@ function App() {
   return (
     <BrowserRouter>
       <div className="App">
-        <img src={snake} className="snake" />
-        <img src={snake} className="crystal" />
+        {/* <img src={snake} className="snake" />
+        <img src={snake} className="crystal" /> */}
 
         <Navigation setMenu={setMenu} web3Handler={web3Handler} account={account} pwEntered={pwEntered}/>
         {pwEntered ? (

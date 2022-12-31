@@ -3,20 +3,20 @@ import {
 } from "react-router-dom";
 
 import { Image, Navbar, Nav, Button, Container } from 'react-bootstrap'
-import media from '../img/eth-logo.png'
+import media from '../img/Methalogo.png'
 import icon_tg from '../img/icon_tg.png'
 import icon_tw from '../img/icon_tw.png'
 
 const Navigation = ({ setMenu, web3Handler, account, pwEntered }) => {
     return (
-        <Navbar expand="lg" bg="light" variant="light">
+        <Navbar expand="lg" bg="transparent" variant="light" className="p-0">
             <Container>
-                <Navbar.Brand>
+                {/* <Navbar.Brand className="p-0">
                     <div onClick={() => setMenu(0)} className="navbarElemntLink">
-                        <img src={media} width="40" height="40" className="" alt="" />
-                    &nbsp; Metha
+                        <img src={media} height="40" className="" alt="" />
+                    
                     </div>
-                </Navbar.Brand>
+                </Navbar.Brand> */}
                 <Navbar.Toggle aria-controls="responsive-navbar-nav" />
                 <Navbar.Collapse id="responsive-navbar-nav">
                     <Nav className="ms-auto">

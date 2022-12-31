@@ -67,6 +67,7 @@ video {
 }
 
 .navbarElemntLink {
+  font-weight: bold;
 }
 
 .navbarElemntLink:hover {

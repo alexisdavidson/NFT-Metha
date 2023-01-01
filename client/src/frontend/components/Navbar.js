@@ -20,9 +20,9 @@ const Navigation = ({ setMenu, web3Handler, account, pwEntered }) => {
                 <Navbar.Toggle aria-controls="responsive-navbar-nav" />
                 <Navbar.Collapse id="responsive-navbar-nav">
                     <Nav className="ms-auto">
-                        <div onClick={() => setMenu(1)} className="navbarElemntLink py-0 pe-4">
+                        {/* <div onClick={() => setMenu(1)} className="navbarElemntLink py-0 pe-4">
                             Swap dApp
-                        </div>
+                        </div> */}
                         <a href="https://google.com/" target="_blank" className="py-0 pe-2">
                             <Image src={icon_tg} width="30" height="30" className="p-0"/>
                         </a>
@@ -31,22 +31,23 @@ const Navigation = ({ setMenu, web3Handler, account, pwEntered }) => {
                         </a>
                     </Nav>
                     {pwEntered ? (
-                        <Nav>
-                            {account ? (
-                                <Nav.Link
-                                    href={`https://etherscan.io/address/${account}`}
-                                    target="_blank"
-                                    rel="noopener noreferrer"
-                                    className="button nav-button btn-sm mx-4">
-                                    <Button variant="outline-dark">
-                                        {account.slice(0, 5) + '...' + account.slice(38, 42)}
-                                    </Button>
+                        <></>
+                        // <Nav>
+                        //     {account ? (
+                        //         <Nav.Link
+                        //             href={`https://etherscan.io/address/${account}`}
+                        //             target="_blank"
+                        //             rel="noopener noreferrer"
+                        //             className="button nav-button btn-sm mx-4">
+                        //             <Button variant="outline-dark">
+                        //                 {account.slice(0, 5) + '...' + account.slice(38, 42)}
+                        //             </Button>
 
-                                </Nav.Link>
-                            ) : (
-                                <Button onClick={web3Handler} variant="outline-dark">Connect Wallet</Button>
-                            )}
-                        </Nav>
+                        //         </Nav.Link>
+                        //     ) : (
+                        //         <Button onClick={web3Handler} variant="outline-dark">Connect Wallet</Button>
+                        //     )}
+                        // </Nav>
                     ) : (
                         <></>
                     )}
